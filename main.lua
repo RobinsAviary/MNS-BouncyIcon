@@ -7,6 +7,9 @@ randSpot = false
 
 function Init()
 	Texture.Load("logo", "icon.png")
+	Audio.Load("blip", "blip.wav")
+	Sound.Create("blip", "blip")
+	Sound.SetVolume("blip", .1)
 	texSize = Texture.Size("logo")
 	SetAntialiasingLevel(16)
 end
@@ -20,7 +23,7 @@ function Update()
 	end
 
 	Draw.Clear(Color.Black)
-
+	
 	pos = pos + (dir * Vec2.NewS(spd) * Vec2.NewS(Delta()))
 
 	
@@ -28,24 +31,32 @@ function Update()
 	local lowerBound = winSize.y - texSize.y
 	local rightBound = winSize.x - texSize.x
 
+	function playBlip()
+		Sound.Play("blip")
+	end
+
 	if pos.x < 0 then
 		pos.x = 0
 		dir.x = dir.x * -1
+		playBlip()
 	end
 
 	if pos.y < 0 then
 		pos.y = 0
 		dir.y = dir.y * -1
+		playBlip()
 	end
 
 	if pos.x > rightBound then
 		pos.x = rightBound
 		dir.x = dir.x * -1
+		playBlip()
 	end
 
 	if pos.y > lowerBound then
 		pos.y = lowerBound
 		dir.y = dir.y * -1
+		playBlip()
 	end
 
 	Draw.Texture("logo", pos)
