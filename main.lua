@@ -2,21 +2,28 @@ pos = Vec2.Zero
 spd = 100;
 dir = Vec2.New(1,1)
 texSize = Vec2.Zero
+winSize = Vec2.Zero
+randSpot = false
 
 function Init()
 	Texture.Load("logo", "icon.png")
 	texSize = Texture.Size("logo")
 	SetAntialiasingLevel(16)
-	
 end
 
 function Update()
-	
+	local winSize = Window.Size()
+
+	if (not randSpot) then
+		pos = Vec2.New(math.random(0, winSize.x - texSize.x), math.random(0, winSize.y - texSize.y))
+		randSpot = true
+	end
+
 	Draw.Clear(Color.Black)
 
 	pos = pos + (dir * Vec2.NewS(spd) * Vec2.NewS(Delta()))
 
-	local winSize = Window.Size()
+	
 
 	local lowerBound = winSize.y - texSize.y
 	local rightBound = winSize.x - texSize.x
